@@ -12,6 +12,5 @@ name, descriptions, mnemonic, accelerator and icons to be used for each action.<
     <resource>BuildConfig</resource>
   </resources>
   <dependencies>
-    <plugin name='i18n' version='0.4.1' />
   </dependencies>
 </plugin>

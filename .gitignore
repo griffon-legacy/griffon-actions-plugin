@@ -1,0 +1,11 @@
+.idea
+out
+target
+*.iml
+*.ipr
+*.iws
+griffon-actions-*.zip
+plugin.xml
+.svn
+.classpath
+.project

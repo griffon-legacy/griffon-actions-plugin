@@ -1,48 +1,4 @@
-/*
- * Copyright 2011 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- */
-
-/**
- * @author Andres Almiray
- */
-class ActionsGriffonPlugin {
-    // the plugin version
-    def version = "0.3"
-    // the version or versions of Griffon the plugin is designed for
-    def griffonVersion = '0.9.5-rc2 > *'
-    // the other plugins this plugin depends on
-    def dependsOn = ['i18n-support': '0.1']
-    // resources that are included in plugin packaging
-    def pluginIncludes = []
-    // the plugin license
-    def license = 'Apache Software License 2.0'
-    // Toolkit compatibility. No value means compatible with all
-    // Valid values are: swing, javafx, swt, pivot, gtk
-    def toolkits = ['swing']
-    // Platform compatibility. No value means compatible with all
-    // Valid values are:
-    // linux, linux64, windows, windows64, macosx, macosx64, solaris
-    def platforms = []
-
-    def authors = [
-            [
-                    name: 'Andres Almiray',
-                    email: 'aalmiray@yahoo.com'
-            ]
-    ]
-    def title = 'Action management'
-    def description = '''**actions** provides automatic action-per-controller management making the job of wiring up actions in Views much easier.
+**actions** provides automatic action-per-controller management making the job of wiring up actions in Views much easier.
 
 ## Usage ##
 
@@ -76,10 +32,11 @@ The actions `new` and `delete` use the 'Action' suffix in order to avoid compila
 In the case that you'd like the close action to be customized for all controllers, say using the Spanish language then you'll require a file named `griffon-app/i18n/messages_es.properties` file with the following keys
 
 Make sure to remove any controller specific keys when reaching for application wide configuration.
-'''
 
-    // URL to the plugin's documentation
-    def documentation = ''
-    // URL where source can be found
-    String source = 'https://github.com/griffon/griffon-actions-plugin'
-}
+# History #
+
+| Version | Notes                               |
+| ------- | ----------------------------------- |
+| 0.3     | switched to i18n-support dependency |
+| 0.2     | Release sync with Griffon 0.9.4     |
+| 0.1     | Initial release                     |

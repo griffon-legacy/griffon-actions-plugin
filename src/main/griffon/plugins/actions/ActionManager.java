@@ -17,13 +17,15 @@ package griffon.plugins.actions;
 
 import griffon.core.GriffonController;
 import griffon.core.GriffonControllerClass;
+import griffon.plugins.i18n.ConstrainedMessageSource;
+import griffon.plugins.i18n.MessageSource;
+import griffon.plugins.i18n.NoSuchMessageException;
 import griffon.swing.SwingAction;
 import griffon.plugins.i18n.MessageSourceHolder;
 import org.codehaus.groovy.runtime.MethodClosure;
 import org.codehaus.groovy.runtime.typehandling.DefaultTypeTransformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.NoSuchMessageException;
 
 import javax.swing.*;
 import java.util.Map;
@@ -106,7 +108,7 @@ public final class ActionManager {
         String normalizeNamed = capitalize(normalizeName(actionName));
         String prefix = controller.getClass().getName() + ".action.";
 
-        String rsActionName = msg(prefix, normalizeNamed, "name", getNaturalName(normalizeNamed));
+        String rsActionName = msg(controller, prefix, normalizeNamed, "name", getNaturalName(normalizeNamed));
         if (!isBlank(rsActionName)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".name = " + rsActionName);
@@ -114,7 +116,7 @@ public final class ActionManager {
             builder.withName(rsActionName);
         }
 
-        String rsAccelerator = msg(prefix, normalizeNamed, "accelerator", "");
+        String rsAccelerator = msg(controller, prefix, normalizeNamed, "accelerator", "");
         if (!isBlank(rsAccelerator)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".accelerator = " + rsAccelerator);
@@ -122,7 +124,7 @@ public final class ActionManager {
             builder.withAccelerator(rsAccelerator);
         }
 
-        String rsCommand = msg(prefix, normalizeNamed, "command", "");
+        String rsCommand = msg(controller, prefix, normalizeNamed, "command", "");
         if (!isBlank(rsCommand)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".command = " + rsCommand);
@@ -130,7 +132,7 @@ public final class ActionManager {
             builder.withCommand(rsCommand);
         }
 
-        String rsShortDescription = msg(prefix, normalizeNamed, "short_description", "");
+        String rsShortDescription = msg(controller, prefix, normalizeNamed, "short_description", "");
         if (!isBlank(rsShortDescription)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".short_description = " + rsShortDescription);
@@ -138,7 +140,7 @@ public final class ActionManager {
             builder.withShortDescription(rsShortDescription);
         }
 
-        String rsLongDescription = msg(prefix, normalizeNamed, "long_description", "");
+        String rsLongDescription = msg(controller, prefix, normalizeNamed, "long_description", "");
         if (!isBlank(rsLongDescription)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".long_description = " + rsLongDescription);
@@ -146,7 +148,7 @@ public final class ActionManager {
             builder.withLongDescription(rsLongDescription);
         }
 
-        String rsMnemonic = msg(prefix, normalizeNamed, "mnemonic", "");
+        String rsMnemonic = msg(controller, prefix, normalizeNamed, "mnemonic", "");
         if (!isBlank(rsMnemonic)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".mnemonic = " + rsMnemonic);
@@ -154,7 +156,7 @@ public final class ActionManager {
             builder.withMnemonic(rsMnemonic);
         }
 
-        String rsSmallIcon = msg(prefix, normalizeNamed, "small_icon", "");
+        String rsSmallIcon = msg(controller, prefix, normalizeNamed, "small_icon", "");
         if (!isBlank(rsSmallIcon)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".small_icon = " + rsSmallIcon);
@@ -162,7 +164,7 @@ public final class ActionManager {
             builder.withSmallIcon(new ImageIcon(rsSmallIcon));
         }
 
-        String rsLargeIcon = msg(prefix, normalizeNamed, "large_icon", "");
+        String rsLargeIcon = msg(controller, prefix, normalizeNamed, "large_icon", "");
         if (!isBlank(rsLargeIcon)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".large_icon = " + rsLargeIcon);
@@ -170,7 +172,7 @@ public final class ActionManager {
             builder.withLargeIcon(new ImageIcon(rsLargeIcon));
         }
 
-        String rsEnabled = msg(prefix, normalizeNamed, "enabled", "true");
+        String rsEnabled = msg(controller, prefix, normalizeNamed, "enabled", "true");
         if (!isBlank(rsEnabled)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(prefix + normalizeNamed + ".enabled = " + rsEnabled);
@@ -183,11 +185,14 @@ public final class ActionManager {
         return builder.build();
     }
 
-    private static String msg(String key, String actionName, String subkey, String defaultValue) {
+    private static String msg(GriffonController controller, String key, String actionName, String subkey, String defaultValue) {
+        MessageSource msgSrc = MessageSourceHolder.getMessageSource();
+        if(msgSrc instanceof ConstrainedMessageSource)
+            msgSrc = MessageSourceHolder.getMessageSource(controller.getClass());
         try {
-            return MessageSourceHolder.getMessageSource().getMessage(key + actionName + "." + subkey);
+            return msgSrc.getMessage(key + actionName + "." + subkey);
         } catch (NoSuchMessageException nsme) {
-            return MessageSourceHolder.getMessageSource().getMessage("application.action." + actionName + "." + subkey, defaultValue);
+            return msgSrc.getMessage("application.action." + actionName + "." + subkey, defaultValue);
         }
     }
 }
