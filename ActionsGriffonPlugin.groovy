@@ -71,9 +71,28 @@ Another responsibility of the ActionManager component is to place variable bindi
 
 The following Controller defines four actions, the first two as closure properties while the others as methods. Two actions have an 'Action' suffix in their names.
 
+    package sample
+
+    import java.awt.event.ActionEvent
+
+    class SampleController {
+        def newAction = { ... }
+        def open = { ... }
+        void close(ActionEvent evt) { ... }
+        void deleteAction(ActionEvent evt) { ... }
+    }
+
 The actions `new` and `delete` use the 'Action' suffix in order to avoid compilation errors given that they make use of reserved keywords. It's all the same to the ActionManager as it will generate the following variables in the group's builder: `newAction`, `openAction`, `closeAction` and `deleteAction`. ActionManager expects the following keys to be available in the application's i18n resources (i.e. griffon-app/i18n/messages.properties)
 
+    sample.SampleController.action.New.name = New
+    sample.SampleController.action.Open.name = Open
+    sample.SampleController.action.Close.name = Close
+    sample.SampleController.action.Delete.name = Delete
+    # additional keys per action elided
+
 In the case that you'd like the close action to be customized for all controllers, say using the Spanish language then you'll require a file named `griffon-app/i18n/messages_es.properties` file with the following keys
+
+    application.action.Close.name = Cerrar
 
 Make sure to remove any controller specific keys when reaching for application wide configuration.
 '''
