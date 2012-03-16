@@ -186,13 +186,15 @@ public final class ActionManager {
     }
 
     private static String msg(GriffonController controller, String key, String actionName, String subkey, String defaultValue) {
-        MessageSource msgSrc = MessageSourceHolder.getMessageSource();
-        if(msgSrc instanceof ConstrainedMessageSource)
-            msgSrc = MessageSourceHolder.getMessageSource(controller.getClass());
+        MessageSource messageSource = MessageSourceHolder.getInstance().getMessageSource();
+        if(messageSource instanceof ConstrainedMessageSource) {
+            messageSource = MessageSourceHolder.getInstance().getMessageSource(controller.getClass());
+        }
+
         try {
-            return msgSrc.getMessage(key + actionName + "." + subkey);
+            return messageSource.getMessage(key + actionName + "." + subkey);
         } catch (NoSuchMessageException nsme) {
-            return msgSrc.getMessage("application.action." + actionName + "." + subkey, defaultValue);
+            return messageSource.getMessage("application.action." + actionName + "." + subkey, defaultValue);
         }
     }
 }

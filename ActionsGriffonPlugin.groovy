@@ -18,11 +18,11 @@
  */
 class ActionsGriffonPlugin {
     // the plugin version
-    String version = '0.3'
+    String version = '0.4'
     // the version or versions of Griffon the plugin is designed for
     String griffonVersion = '0.9.5 > *'
     // the other plugins this plugin depends on
-    Map dependsOn = [swing: '0.9.5', 'i18n-support': '0.1']
+    Map dependsOn = [swing: '0.9.5', 'i18n-support': '0.2']
     // resources that are included in plugin packaging
     List pluginIncludes = []
     // the plugin license
